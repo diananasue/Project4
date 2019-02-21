@@ -39,6 +39,7 @@ class Person
         for interest in interests
         {
             print("    - \(interest.name)")
+            //print(interest.describeInterest())
         }
     }
 }
@@ -46,19 +47,9 @@ class Person
 class Interest
 {
     var name: String
-    var cost: String
-    var frequency: String
-    var feeling: String
-    
-    
-    /*
-    static let  options = ["footbal", "fishing", "movies", "music", "cars",
-                           "boats", "fashion", "computers", "technology", "books",
-                           "video games", "cooking", "math",
-                           "physics", "fitness", "cycling",
-                           "electronics", "motocycles", "programming", "decorations",
-                           "handmades", "bicycles", "bowling"]
-    */
+    var cost: Cost
+    var frequency: Frequency
+    var feeling: Feeling
     
     static let generalInterests = generateGeneralInterests()
     static let numberOfOptions = generalInterests.count
@@ -69,30 +60,65 @@ class Interest
         
         
         // Sports
-        options.append(Sport(name: "footbal", cost: Cost.expensive.rawValue, frequency: Frequency.daily.rawValue , feeling: Feeling.healthy.rawValue, equipment: "clothes and a ball", weatherConditions: "prefarably a sunny day", numberOfParticipants: 11))
-        options.append(Sport(name: "fishing", cost: Cost.expensive.rawValue, frequency: Frequency.severalTimesMonth.rawValue , feeling: Feeling.interactive.rawValue, equipment: "fishing hook", weatherConditions: "sunny day", numberOfParticipants: 1))
-        options.append(Sport(name: "cycling", cost: Cost.affordable.rawValue, frequency: Frequency.severalTimesWeek.rawValue , feeling: Feeling.challenging.rawValue, equipment: "bicycle", weatherConditions: "any type of day", numberOfParticipants: 1))
-        options.append(Sport(name: "fitness", cost: Cost.affordable.rawValue, frequency: Frequency.daily.rawValue, feeling: Feeling.enjoyable.rawValue, equipment: "clothes", weatherConditions: "any type of day", numberOfParticipants: 1))
-        options.append(Sport(name: "bowling", cost: Cost.cheap.rawValue, frequency: Frequency.onceAweek.rawValue, feeling: Feeling.enjoyable.rawValue, equipment: "bowling ball", weatherConditions: "any type of day", numberOfParticipants: 2))
+        options.append(Sport(name: "footbal", cost: .expensive, frequency: .daily , feeling: .healthy, equipment: "clothes and a ball", weatherConditions: "prefarably a sunny day", numberOfParticipants: 11))
+        options.append(Sport(name: "fishing", cost: .expensive, frequency: .severalTimesMonth , feeling: .interactive, equipment: "fishing hook", weatherConditions: "sunny day", numberOfParticipants: 1))
+        options.append(Sport(name: "cycling", cost: .affordable, frequency: .severalTimesWeek , feeling: .challenging, equipment: "bicycle", weatherConditions: "any type of day", numberOfParticipants: 1))
+        options.append(Sport(name: "fitness", cost: .affordable, frequency: .daily, feeling: .enjoyable, equipment: "clothes", weatherConditions: "any type of day", numberOfParticipants: 1))
+        options.append(Sport(name: "bowling", cost: .cheap, frequency: .onceAweek, feeling: .enjoyable, equipment: "bowling ball", weatherConditions: "any type of day", numberOfParticipants: 2))
         
         // Art
         
+        options.append(Art(name: "movies", cost: .cheap, frequency: .severalTimesWeek, feeling: .relaxing, genre: .historical))
+        options.append(Art(name: "music", cost: .cheap, frequency: .daily, feeling: .enjoyable, genre: .modern))
+        options.append(Art(name: "fashion", cost: .expensive, frequency: .severalTimesWeek, feeling: .challenging, genre: .modern))
+        options.append(Art(name: "books", cost: .affordable, frequency: .daily, feeling: .enjoyable, genre: .classical))
+        options.append(Art(name: "cooking", cost: .affordable, frequency: .daily, feeling: .healthy, genre: .modern))
+        options.append(Art(name: "decorations", cost: .affordable, frequency: .severalTimesWeek, feeling: .relaxing, genre: .none))
+        options.append(Art(name: "handmades", cost: .cheap, frequency: .severalTimesMonth, feeling: .interactive, genre: .none))
+        
         // Science
         
+        options.append(Science(name: "technology", cost: .affordable, frequency: .onceAweek, feeling: .challenging, difficulty: .hard, experience: .intermediate))
+        options.append(Science(name: "video games", cost: .affordable, frequency: .daily, feeling: .interactive, difficulty: .medium, experience: Experience.expert))
+        options.append(Science(name: "math", cost: .cheap, frequency: .severalTimesWeek, feeling: .challenging, difficulty: .hard, experience: .begginer))
+        options.append(Science(name: "physics", cost: .cheap, frequency: .daily, feeling: .interesting, difficulty: .hard, experience: .expert))
+        options.append(Science(name: "electronics", cost: .affordable, frequency: .onceAweek, feeling: .challenging, difficulty: .medium, experience: .begginer))
+        options.append(Science(name: "programming", cost: .cheap, frequency: .daily, feeling: .interesting, difficulty: .hard, experience: .expert))
+        options.append(Science(name: "computers", cost: .affordable, frequency: .severalTimesWeek, feeling: .enjoyable, difficulty: .medium, experience: .intermediate))
+        
         // Automobiles
+        
+        options.append(Automobiles(name: "cars", cost: .expensive, frequency: .onceAweek, feeling: .relaxing, numberOfWheels: 4))
+        options.append(Automobiles(name: "boats", cost: .expensive, frequency: .onceAmonth, feeling: .healthy, numberOfWheels: 0))
+        options.append(Automobiles(name: "motocycles", cost: .expensive, frequency: .severalTimesWeek, feeling: .challenging, numberOfWheels: 2))
+        options.append(Automobiles(name: "bicycles", cost: .affordable, frequency: .daily, feeling: .healthy, numberOfWheels: 2))
+        
         
         return options
     }
     
     func describeInterest() -> String
     {
-        let description = ""
+        let begging = ["I realy like ", "One of my passions is ", "I enjoy very much "]
+        var description = String()
+        description += (begging[Int(arc4random_uniform(UInt32(begging.count)))] + name + ".")
+        
+        description += "This costs for this interest are "
+        switch cost
+        {
+        case .cheap:
+            description += "quit cheap"
+        case .affordable:
+            description += "affordables: just my luck"
+        case .expensive:
+            description += "expensive, but't that doesn't stop me."
+        }
         
         return description
     }
     
     
-    init(name: String, cost: String, frequency: String, feeling: String)
+    init(name: String, cost: Cost, frequency: Frequency, feeling: Feeling)
     {
         self.name = name
         self.cost = cost
@@ -137,7 +163,7 @@ class Sport: Interest
     var numberOfParticipants: Int
     
     
-    init(name: String, cost: String, frequency: String, feeling: String, equipment: String, weatherConditions: String, numberOfParticipants: Int)
+    init(name: String, cost: Cost, frequency: Frequency, feeling: Feeling, equipment: String, weatherConditions: String, numberOfParticipants: Int)
     {
         self.equipment = equipment
         self.weatherConditions = weatherConditions
@@ -145,15 +171,26 @@ class Sport: Interest
         super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
         
     }
+    
+    override func describeInterest() -> String {
+        var description = super.describeInterest()
+        
+        description += ("I practice this sport " + frequency.rawValue + " and practicing this sport make me feel" + feeling.rawValue)
+        
+        description += "In order to practice this sport we need " + equipment + "."
+        description += "The perfect weather conditions are" + weatherConditions
+        
+        return description
+    }
 }
 
 
 
 class Art: Interest
 {
-    var genre: String
+    var genre: Genre
     
-    init(name: String, cost: String, frequency: String, feeling: String, genre: String)
+    init(name: String, cost: Cost, frequency: Frequency, feeling: Feeling, genre: Genre)
     {
         self.genre = genre
         super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
@@ -165,14 +202,15 @@ enum Genre: String{
     case classical = "classical"
     case modern = "modern"
     case historical = "historical"
+    case none = "I doesn't have a particular genre."
 }
 
 class Science: Interest
 {
-    var difficulty: String
-    var experience: String
+    var difficulty: Difficulty
+    var experience: Experience
     
-    init(name: String, cost: String, frequency: String, feeling: String, difficulty: String, experience: String)
+    init(name: String, cost: Cost, frequency: Frequency, feeling: Feeling, difficulty: Difficulty, experience: Experience)
     {
         self.difficulty = difficulty
         self.experience = experience
@@ -198,7 +236,7 @@ class Automobiles: Interest
 {
     var numberOfWheels: Int
     
-    init(name: String, cost: String, frequency: String, feeling: String, numberOfWheels: Int)
+    init(name: String, cost: Cost, frequency: Frequency, feeling: Feeling, numberOfWheels: Int)
     {
         //super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
         self.numberOfWheels = numberOfWheels
@@ -234,12 +272,12 @@ func createPersons() -> [Person]
         let age: Int?
         let homeTown: String?
         
-        if personConfiguration == 1 /* has only name and age described */
+        if personConfiguration == Configurations.nameAndAge.rawValue /* has only name and age described */
         {
             age = Int(arc4random_uniform(90)) + 10 // generate a number between 10 and 100
             homeTown = nil                         // home town information is not available
         }
-        else if personConfiguration == 2 /* has name, age and home town described*/
+        else if personConfiguration == Configurations.nameAgeAndHomeTown.rawValue /* has name, age and home town described*/
         {
             age = Int(arc4random_uniform(90)) + 10  //generate a number between 10 and 100
             homeTown = Person.homeTownOptions[Int(arc4random_uniform(UInt32(Person.homeTownOptions.count)))]
@@ -270,14 +308,19 @@ func generateConfigurationForPerson() -> Int
      2 - person will have name, age and hometown
      */
 }
-
+enum Configurations: Int
+{
+    case onlyName = 0
+    case nameAndAge
+    case nameAgeAndHomeTown
+}
 
 /* this function will generate a random number of different interests */
 func generateInterests() -> [Interest]
 {
     var interestsChoosen = [Interest]()
-    /* generate a random number of interests between 1 and 10 */
-    let numberOfInterestsToGenerate = Int(arc4random_uniform(10)) + 1
+    /* generate a random number of interests between 5 and 10 */
+    let numberOfInterestsToGenerate = Int(arc4random_uniform(10)) + 3
     /* generate as many differete numbers as the interests that we want to assign to a person */
     let numbers = generateDifferentNumbers(many: numberOfInterestsToGenerate)
     
@@ -337,7 +380,8 @@ for person in persons
     print("\n")
 }
 
-var personPaired = [Int]()
+
+ var personPaired = [Int]()
 
 for index1 in 0..<participantsNumber
 {
@@ -356,7 +400,7 @@ for index1 in 0..<participantsNumber
         }
         
         let similarities = comparePersons(pers1: persons[index1], pers2: persons[index2])
-        print("Person \(index1 + 1) and person \(index2 + 1) have \(similarities) similarities.")
+        print("\(persons[index1].name) and person \(persons[index2].name) have \(similarities) similarities.")
         if similarities < minimum
         {
             minimum = similarities
@@ -365,8 +409,7 @@ for index1 in 0..<participantsNumber
     }
     personPaired.append(index1)
     personPaired.append(indexOfMin)
-    print("\nPaired P\(index1 + 1) with P\(indexOfMin + 1) - similarities: \(minimum)\n")
+    print("\nPaired \(persons[index1].name) with \(persons[indexOfMin].name) - similarities: \(minimum)\n")
 
 }
-
 
