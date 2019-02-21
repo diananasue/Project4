@@ -46,25 +46,164 @@ class Person
 class Interest
 {
     var name: String
-    var description: String?
-    var reason: String?
+    var cost: String
+    var frequency: String
+    var feeling: String
     
+    
+    /*
     static let  options = ["footbal", "fishing", "movies", "music", "cars",
                            "boats", "fashion", "computers", "technology", "books",
-                           "video games", "board games", "food", "cooking", "math",
-                           "physics", "fitness", "cycling", "horoscope", "gardeniring",
-                           "politics", "electronics", "motocycles", "programming", "decorations",
-                           "handmades", "festivals", "toys", "flowes", "bowling"]
+                           "video games", "cooking", "math",
+                           "physics", "fitness", "cycling",
+                           "electronics", "motocycles", "programming", "decorations",
+                           "handmades", "bicycles", "bowling"]
+    */
     
-    static let numberOfOptions = options.count
+    static let generalInterests = generateGeneralInterests()
+    static let numberOfOptions = generalInterests.count
     
-    init(name: String, description:String?, reason:String?)
+    static func generateGeneralInterests() -> [Interest]
     {
-        self.name = name
-        self.description = description
-        self.reason = reason
+        var options = [Interest]()
+        
+        
+        // Sports
+        options.append(Sport(name: "footbal", cost: Cost.expensive.rawValue, frequency: Frequency.daily.rawValue , feeling: Feeling.healthy.rawValue, equipment: "clothes and a ball", weatherConditions: "prefarably a sunny day", numberOfParticipants: 11))
+        options.append(Sport(name: "fishing", cost: Cost.expensive.rawValue, frequency: Frequency.severalTimesMonth.rawValue , feeling: Feeling.interactive.rawValue, equipment: "fishing hook", weatherConditions: "sunny day", numberOfParticipants: 1))
+        options.append(Sport(name: "cycling", cost: Cost.affordable.rawValue, frequency: Frequency.severalTimesWeek.rawValue , feeling: Feeling.challenging.rawValue, equipment: "bicycle", weatherConditions: "any type of day", numberOfParticipants: 1))
+        options.append(Sport(name: "fitness", cost: Cost.affordable.rawValue, frequency: Frequency.daily.rawValue, feeling: Feeling.enjoyable.rawValue, equipment: "clothes", weatherConditions: "any type of day", numberOfParticipants: 1))
+        options.append(Sport(name: "bowling", cost: Cost.cheap.rawValue, frequency: Frequency.onceAweek.rawValue, feeling: Feeling.enjoyable.rawValue, equipment: "bowling ball", weatherConditions: "any type of day", numberOfParticipants: 2))
+        
+        // Art
+        
+        // Science
+        
+        // Automobiles
+        
+        return options
     }
     
+    func describeInterest() -> String
+    {
+        let description = ""
+        
+        return description
+    }
+    
+    
+    init(name: String, cost: String, frequency: String, feeling: String)
+    {
+        self.name = name
+        self.cost = cost
+        self.frequency = frequency
+        self.feeling = feeling
+    }
+    
+}
+
+
+enum Cost: String
+{
+    case cheap = "cheap"
+    case affordable = "affordable"
+    case expensive = "expensive"
+}
+
+
+enum Frequency: String
+{
+    case onceAweek = "once a week"
+    case daily = "daily"
+    case onceAmonth = "once a month"
+    case severalTimesMonth = "several times a month"
+    case severalTimesWeek = "several timea a week"
+}
+
+enum Feeling: String
+{
+    case relaxing = "relaxing"
+    case challenging = "challenging"
+    case interactive = "interactive"
+    case healthy = "healthy"
+    case enjoyable = "enjoyable"
+    case interesting = "interesting"
+}
+
+class Sport: Interest
+{
+    var equipment: String
+    var weatherConditions: String
+    var numberOfParticipants: Int
+    
+    
+    init(name: String, cost: String, frequency: String, feeling: String, equipment: String, weatherConditions: String, numberOfParticipants: Int)
+    {
+        self.equipment = equipment
+        self.weatherConditions = weatherConditions
+        self.numberOfParticipants = numberOfParticipants
+        super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
+        
+    }
+}
+
+
+
+class Art: Interest
+{
+    var genre: String
+    
+    init(name: String, cost: String, frequency: String, feeling: String, genre: String)
+    {
+        self.genre = genre
+        super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
+    }
+    
+}
+
+enum Genre: String{
+    case classical = "classical"
+    case modern = "modern"
+    case historical = "historical"
+}
+
+class Science: Interest
+{
+    var difficulty: String
+    var experience: String
+    
+    init(name: String, cost: String, frequency: String, feeling: String, difficulty: String, experience: String)
+    {
+        self.difficulty = difficulty
+        self.experience = experience
+        super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
+    }
+}
+
+enum Difficulty: String
+{
+    case easy = "easy"
+    case medium = "medium"
+    case hard = "hard"
+}
+
+enum Experience: String
+{
+    case begginer = "begginer"
+    case intermediate = "intermediate"
+    case expert = "expert"
+}
+
+class Automobiles: Interest
+{
+    var numberOfWheels: Int
+    
+    init(name: String, cost: String, frequency: String, feeling: String, numberOfWheels: Int)
+    {
+        //super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
+        self.numberOfWheels = numberOfWheels
+        super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
+    }
 }
 
 
@@ -144,7 +283,7 @@ func generateInterests() -> [Interest]
     
     for index in numbers
     {
-        interestsChoosen.append(Interest(name: Interest.options[index], description: nil, reason: nil))
+        interestsChoosen.append(Interest.generalInterests[index])
     }
     
     return interestsChoosen
