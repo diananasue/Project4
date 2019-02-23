@@ -60,8 +60,8 @@ class Interest
         
         
         // Sports
-        options.append(Sport(name: "footbal", cost: .expensive, frequency: .daily , feeling: .healthy, equipment: "clothes and a ball", weatherConditions: "prefarably a sunny day", numberOfParticipants: 11))
-        options.append(Sport(name: "fishing", cost: .expensive, frequency: .severalTimesMonth , feeling: .interactive, equipment: "fishing hook", weatherConditions: "sunny day", numberOfParticipants: 1))
+        options.append(Sport(name: "footbal", cost: .expensive, frequency: .daily , feeling: .healthy, equipment: "clothes and a ball", weatherConditions: "prefarably a sunny day", numberOfParticipants: 22))
+        options.append(Sport(name: "fishing", cost: .expensive, frequency: .severalTimesMonth , feeling: .interactive, equipment: "fishing rod and rell", weatherConditions: "sunny day", numberOfParticipants: 1))
         options.append(Sport(name: "cycling", cost: .affordable, frequency: .severalTimesWeek , feeling: .challenging, equipment: "bicycle", weatherConditions: "any type of day", numberOfParticipants: 1))
         options.append(Sport(name: "fitness", cost: .affordable, frequency: .daily, feeling: .enjoyable, equipment: "clothes", weatherConditions: "any type of day", numberOfParticipants: 1))
         options.append(Sport(name: "bowling", cost: .cheap, frequency: .onceAweek, feeling: .enjoyable, equipment: "bowling ball", weatherConditions: "any type of day", numberOfParticipants: 2))
@@ -88,10 +88,10 @@ class Interest
         
         // Automobiles
         
-        options.append(Automobiles(name: "cars", cost: .expensive, frequency: .onceAweek, feeling: .relaxing, numberOfWheels: 4))
-        options.append(Automobiles(name: "boats", cost: .expensive, frequency: .onceAmonth, feeling: .healthy, numberOfWheels: 0))
-        options.append(Automobiles(name: "motocycles", cost: .expensive, frequency: .severalTimesWeek, feeling: .challenging, numberOfWheels: 2))
-        options.append(Automobiles(name: "bicycles", cost: .affordable, frequency: .daily, feeling: .healthy, numberOfWheels: 2))
+        options.append(Automobiles(name: "cars", cost: .expensive, frequency: .onceAweek, feeling: .relaxing, power: 120, competing: true))
+        options.append(Automobiles(name: "boats", cost: .expensive, frequency: .onceAmonth, feeling: .healthy, power: 200, competing: true))
+        options.append(Automobiles(name: "motocycles", cost: .expensive, frequency: .severalTimesWeek, feeling: .challenging, power: 150, competing: false))
+        options.append(Automobiles(name: "bicycles", cost: .affordable, frequency: .daily, feeling: .healthy, power: 0, competing: false))
         
         
         return options
@@ -101,18 +101,8 @@ class Interest
     {
         let begging = ["I realy like ", "One of my passions is ", "I enjoy very much "]
         var description = String()
-        description += (begging[Int(arc4random_uniform(UInt32(begging.count)))] + name + ".")
-        
-        description += "This costs for this interest are "
-        switch cost
-        {
-        case .cheap:
-            description += "quit cheap"
-        case .affordable:
-            description += "affordables: just my luck"
-        case .expensive:
-            description += "expensive, but't that doesn't stop me."
-        }
+        description += "    - \(name.uppercased())\n"
+        description += (begging[Int(arc4random_uniform(UInt32(begging.count)))] + name)
         
         return description
     }
@@ -131,9 +121,9 @@ class Interest
 
 enum Cost: String
 {
-    case cheap = "cheap"
-    case affordable = "affordable"
-    case expensive = "expensive"
+    case cheap
+    case affordable
+    case expensive
 }
 
 
@@ -148,12 +138,12 @@ enum Frequency: String
 
 enum Feeling: String
 {
-    case relaxing = "relaxing"
-    case challenging = "challenging"
-    case interactive = "interactive"
-    case healthy = "healthy"
-    case enjoyable = "enjoyable"
-    case interesting = "interesting"
+    case relaxing
+    case challenging
+    case interactive
+    case healthy
+    case enjoyable
+    case interesting
 }
 
 class Sport: Interest
@@ -175,10 +165,22 @@ class Sport: Interest
     override func describeInterest() -> String {
         var description = super.describeInterest()
         
-        description += ("I practice this sport " + frequency.rawValue + " and practicing this sport make me feel" + feeling.rawValue)
+        description += " because practing this sport makes me feel" + feeling.rawValue + ".\n"
         
-        description += "In order to practice this sport we need " + equipment + "."
-        description += "The perfect weather conditions are" + weatherConditions
+        description += ("I practice this sport " + frequency.rawValue + " and it is ")
+        
+        switch cost
+        {
+        case .cheap:
+            description += "quit cheap.\n"
+        case .affordable:
+            description += "affordables: just my luck.\n"
+        case .expensive:
+            description += "expensive, but't that doesn't stop me.\n"
+        }
+        
+        description += "In order to practice this sport we need the following equiptment" + equipment + ".\n"
+        description += "The perfect weather conditions are" + weatherConditions + " and the minimum number of participants is  \(numberOfParticipants)" + ".\n"
         
         return description
     }
@@ -196,12 +198,34 @@ class Art: Interest
         super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
     }
     
+    override func describeInterest() -> String {
+        var description = super.describeInterest()
+        
+        description += " because it makes me feel " + feeling.rawValue + ".\n"
+        
+        description += ("I am doing this activity " + frequency.rawValue + " and it is ")
+        
+        switch cost
+        {
+        case .cheap:
+            description += "quit cheap.\n"
+        case .affordable:
+            description += "affordables: just my luck.\n"
+        case .expensive:
+            description += "expensive, but't that doesn't stop me.\n"
+        }
+        
+        description += "The gender that I preffere is " + genre.rawValue + ".\n"
+        
+        return description
+    }
+    
 }
 
 enum Genre: String{
-    case classical = "classical"
-    case modern = "modern"
-    case historical = "historical"
+    case classical
+    case modern
+    case historical
     case none = "I doesn't have a particular genre."
 }
 
@@ -216,36 +240,96 @@ class Science: Interest
         self.experience = experience
         super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
     }
+    
+    override func describeInterest() -> String {
+        var description = super.describeInterest()
+        
+        description += " because learning about this makes me feel " + feeling.rawValue + ".\n"
+        
+        description += ("I am doing this activity " + frequency.rawValue + " and it is ")
+        
+        switch cost
+        {
+        case .cheap:
+            description += "quit cheap.\n"
+        case .affordable:
+            description += "affordables: just my luck.\n"
+        case .expensive:
+            description += "expensive, but't that doesn't stop me.\n"
+        }
+        
+        description += "I like doint this because the difficulty is " + difficulty.rawValue + " and right now I belive that I am a " + experience.rawValue + " in this domain. \n"
+        return description
+    }
+    
 }
 
 enum Difficulty: String
 {
-    case easy = "easy"
-    case medium = "medium"
-    case hard = "hard"
+    case easy
+    case medium
+    case hard
 }
 
 enum Experience: String
 {
-    case begginer = "begginer"
-    case intermediate = "intermediate"
-    case expert = "expert"
+    case begginer
+    case intermediate
+    case expert
 }
 
 class Automobiles: Interest
 {
-    var numberOfWheels: Int
+    var power: Int
+    var competing: Bool
     
-    init(name: String, cost: Cost, frequency: Frequency, feeling: Feeling, numberOfWheels: Int)
+    init(name: String, cost: Cost, frequency: Frequency, feeling: Feeling, power: Int, competing: Bool)
     {
         //super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
-        self.numberOfWheels = numberOfWheels
+        self.power = power
+        self.competing = competing
         super.init(name: name, cost: cost, frequency: frequency, feeling: feeling)
     }
+    
+    override func describeInterest() -> String {
+        var description = super.describeInterest()
+        
+        description += " because it makes me feel " + feeling.rawValue + ".\n"
+        
+        description += ("I am doing this activity " + frequency.rawValue + " and it is ")
+        
+        switch cost
+        {
+        case .cheap:
+            description += "quit cheap.\n"
+        case .affordable:
+            description += "affordables: just my luck.\n"
+        case .expensive:
+            description += "expensive, but't that doesn't stop me.\n"
+        }
+        if power > 0
+        {
+            description += "The " + name + "that I own have around  \(power) " + " hourse power.\n"
+        }
+        else
+        {
+            description += "The power of the " + name + " is dependent on my strenght.\n"
+        }
+        
+        if competing
+        {
+            description += "I usualy participate in competition with the " + name + " that I have.\n "
+        }
+        else
+        {
+            description += "I don't participate in competition with the " + name + " that I have.\n "
+        }
+        
+        return description
+    }
+    
 }
 
-
-// 1) Generate a number of participants (2-12 participants)
 func chooseParticipantsNumber() -> Int
 {
     return Int(arc4random_uniform(6)*2 + 2) //return an even number between 2 and 12
@@ -259,7 +343,6 @@ func chooseParticipantsNumber() -> Int
     */
 }
 
-let participantsNumber = chooseParticipantsNumber()
 
 /* create the persons that will participate */
 func createPersons() -> [Person]
@@ -319,8 +402,8 @@ enum Configurations: Int
 func generateInterests() -> [Interest]
 {
     var interestsChoosen = [Interest]()
-    /* generate a random number of interests between 5 and 10 */
-    let numberOfInterestsToGenerate = Int(arc4random_uniform(10)) + 3
+    /* generate a random number of interests between 3 and 10 */
+    let numberOfInterestsToGenerate = Int(arc4random_uniform(8)) + 3
     /* generate as many differete numbers as the interests that we want to assign to a person */
     let numbers = generateDifferentNumbers(many: numberOfInterestsToGenerate)
     
@@ -354,9 +437,9 @@ func generateDifferentNumbers(many: Int) -> [Int]
     return arrayWithNumbers
 }
 
-func comparePersons(pers1: Person, pers2: Person) -> Int
+func comparePersons(pers1: Person, pers2: Person) -> [String]
 {
-    var noOfSimilarities = 0
+    var similarities = [String]()
     
     for interestPerson1 in pers1.interests
     {
@@ -364,14 +447,34 @@ func comparePersons(pers1: Person, pers2: Person) -> Int
             return interestPerson1.name == interestPerson2.name
         })
         {
-            noOfSimilarities+=1
+            similarities.append(interestPerson1.name)
         }
     }
     
-    return noOfSimilarities
+    return similarities
 }
 
+func findUnshareInterests(pers1: Person, pers2: Person) -> [Interest]
+{
+    var nonSimilarities = [Interest]()
+    
+    for interestPerson1 in pers1.interests
+    {
+        if (pers2.interests).contains(where: { (interestPerson2) -> Bool in
+            return interestPerson1.name != interestPerson2.name
+        })
+        {
+            nonSimilarities.append(interestPerson1)
+        }
+    }
+    
+    return nonSimilarities
+}
 
+// 1) Generate a number of participants (2-12 participants)
+let participantsNumber = chooseParticipantsNumber()
+
+// 2) Populate the initial data container and log participants introduction.
 let persons = createPersons()
 print("We have \(participantsNumber) participants.\n")
 for person in persons
@@ -380,13 +483,14 @@ for person in persons
     print("\n")
 }
 
-
- var personPaired = [Int]()
+// 3)Generate conversation pairs based on differences in participants’ interests.
+var personPaired = [Int]()
 
 for index1 in 0..<participantsNumber
 {
     var minimum = Interest.numberOfOptions
     var indexOfMin = 0
+    var pairedPersonSharedInterests = [String]()
     
     if personPaired.contains(index1)
     {
@@ -399,17 +503,44 @@ for index1 in 0..<participantsNumber
             continue
         }
         
-        let similarities = comparePersons(pers1: persons[index1], pers2: persons[index2])
-        print("\(persons[index1].name) and person \(persons[index2].name) have \(similarities) similarities.")
+        let sharedInterests = comparePersons(pers1: persons[index1], pers2: persons[index2])
+        
+        let similarities = sharedInterests.count
+        
+        print("\(persons[index1].name) and \(persons[index2].name) have \(similarities) similarities.")
         if similarities < minimum
         {
             minimum = similarities
             indexOfMin = index2
+            pairedPersonSharedInterests = sharedInterests
+            
         }
     }
     personPaired.append(index1)
     personPaired.append(indexOfMin)
-    print("\nPaired \(persons[index1].name) with \(persons[indexOfMin].name) - similarities: \(minimum)\n")
-
+    
+    //4) Log the pairing results.
+    print("\nWe choosed to pair \(persons[index1].name) with \(persons[indexOfMin].name) - similarities: \(minimum)\n")
+    if minimum > 0
+    {
+        print ("They share the following interests:")
+        for interestName in pairedPersonSharedInterests
+        {
+            print("   - \(interestName)")
+        }
+    }
+    else
+    {
+        print("They don't have anything in common.")
+    }
+    
+    let unsharedInterests = findUnshareInterests(pers1: persons[index1], pers2: persons[indexOfMin])
+    print("\nThey discuss about the following:")
+    for nonInterestName in unsharedInterests
+    {
+        //print(nonInterestName.describeInterest())
+        print("   - \(nonInterestName.name)")
+    }
+    print("\n")
 }
 
