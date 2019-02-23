@@ -456,15 +456,23 @@ func comparePersons(pers1: Person, pers2: Person) -> [String]
 
 func findUnshareInterests(pers1: Person, pers2: Person) -> [Interest]
 {
-    var nonSimilarities = [Interest]()
     
-    for interestPerson1 in pers1.interests
+    var nonSimilarities = [Interest]()
+    let similarities = [String]()
+    
+    for interest in pers1.interests
     {
-        if (pers2.interests).contains(where: { (interestPerson2) -> Bool in
-            return interestPerson1.name != interestPerson2.name
-        })
+        if similarities.contains(interest.name) == false
         {
-            nonSimilarities.append(interestPerson1)
+            nonSimilarities.append(interest)
+        }
+    }
+    
+    for interest in pers2.interests
+    {
+        if similarities.contains(interest.name) == false
+        {
+            nonSimilarities.append(interest)
         }
     }
     
