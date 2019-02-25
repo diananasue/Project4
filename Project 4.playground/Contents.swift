@@ -528,7 +528,7 @@ for index1 in 0..<participantsNumber
     personPaired.append(indexOfMin)
     
     //4) Log the pairing results.
-    print("\nWe choosed to pair \(persons[index1].name) with \(persons[indexOfMin].name) - similarities: \(minimum)\n")
+    print("\nWe chose to pair \(persons[index1].name) with \(persons[indexOfMin].name) - similarities: \(minimum)\n")
     if minimum > 0
     {
         print ("They share the following interests:")
